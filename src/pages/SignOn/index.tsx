@@ -1,8 +1,11 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useNavigate } from 'react-router-dom';
 import styles from '../SignOn/styles.module.scss'
 
 export function SignOn() {
+    const navigate = useNavigate()
+
     return (
         <main className={styles.signOnContainer}>
             <h2>Informações básicas</h2>
@@ -43,8 +46,7 @@ export function SignOn() {
                     </div>
                 </div>
                 
-
-                <Button variant="primary" type="submit">
+                <Button variant="primary" type="submit" onClick={() => {navigate("/skills")}}>
                     Prosseguir
                 </Button>
             </Form>

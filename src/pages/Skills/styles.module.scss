@@ -1,0 +1,33 @@
+.skillsContainer {
+    margin: 50px;
+}
+
+.boardContainer {
+    padding: 50px;
+    border: 3px solid black;
+    border-radius: 10px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+}
+
+.skillsOption {
+    width: 200px;
+    height: 150px;;
+    padding: 10px;
+    border: 3px solid black;
+    border-radius: 10px;
+    margin: 20px;
+
+    img {
+        margin-bottom: 20px;
+    }
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 15px;
+}
