@@ -1,13 +1,14 @@
+import { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import styles from '../SignOn/styles.module.scss'
+import styles from '../SignUp/styles.module.scss'
 
-export function SignOn() {
+export function SignUp() {
     const navigate = useNavigate()
 
     return (
-        <main className={styles.signOnContainer}>
+        <main className={styles.signUpContainer}>
             <h2>Informações básicas</h2>
             <Form className={styles.formContainer}>
                 <div className={styles.formInputGroup}>
