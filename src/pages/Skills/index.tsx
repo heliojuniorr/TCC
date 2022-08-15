@@ -1,14 +1,18 @@
 import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import softwareImg from '../../resources/software.svg'
+import businessImg from '../../resources/business.svg'
+import designImg from '../../resources/design.svg'
+import networkingImg from '../../resources/networking.svg'
 import styles from '../Skills/styles.module.scss'
 
 export function Skills() {
     const navigate = useNavigate()
 
-    function SkillsOption(props: {skillType: string}) {
+    function SkillsOption(props: {skillType: string, source: string}) {
         return (
             <button className={styles.skillsOption} onClick={() => {navigate(`/skilldetails/${props.skillType}`)}}>
-                <img src="" alt="Skill image" />
+                <img src={props.source} alt="Skill image" />
                 <br />
                 <span>{props.skillType}</span>
             </button>
@@ -21,10 +25,10 @@ export function Skills() {
             <h5>Selecione suas habilidades que podem colaborar com um empreendimento de base tecnológica</h5>
             <div className={styles.boardContainer}>
                 <div className={styles.grid}>
-                    <SkillsOption skillType='Software'/>
-                    <SkillsOption skillType='Business'/>
-                    <SkillsOption skillType='Design'/>
-                    <SkillsOption skillType='Networking'/>                    
+                    <SkillsOption skillType='Software' source={softwareImg}/>
+                    <SkillsOption skillType='Business' source={businessImg}/>
+                    <SkillsOption skillType='Design' source={designImg}/>
+                    <SkillsOption skillType='Networking' source={networkingImg}/>                    
                 </div>
 
                 <div className={styles.buttons}>

@@ -2,6 +2,18 @@ import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from '../SkillDetails/styles.module.scss'
 
+const software: string[] = ['C#', 'JavaScript', 'HTML', 'Banco de dados']
+const business: string[] = []
+const design: string[] = []
+const networking: string[] = []
+
+const specificSkills = {
+    "software": software,
+    "business": business,
+    "design": design,
+    "networking": networking
+}
+
 export function SkillDetails() {
     const navigate = useNavigate()
     const urlParams = useParams<{skill: string}>()
@@ -45,10 +57,11 @@ export function SkillDetails() {
             <h2>Skills | {urlParams.skill}</h2>
             <h5>Escolha suas habilidades e domínio referente ao grupo de habilidades escolhido</h5>
             <div className={styles.boardContainer}>
-                <SkillLevel skillName="C#"/>
-                <SkillLevel skillName="JavaScript"/>
-                <SkillLevel skillName="HTML"/>
-                <SkillLevel skillName="Banco de dados"/>
+                {
+                    specificSkills['software'].map((value, index) => {
+                        return <SkillLevel key={index} skillName={value}/>
+                    })
+                }
 
                 <div className={styles.buttonsContainer}>
                     <Button variant="primary" type="submit" onClick={() => {navigate('/skills')}}>
