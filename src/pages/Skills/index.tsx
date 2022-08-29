@@ -1,7 +1,7 @@
 import { Button } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
-import softwareImg from '../../resources/software.svg'
-import businessImg from '../../resources/business.svg'
+import knowledgeImg from '../../resources/knowledge.svg'
+import skillsImg from '../../resources/skills.svg'
 import designImg from '../../resources/design.svg'
 import networkingImg from '../../resources/networking.svg'
 import styles from '../Skills/styles.module.scss'
@@ -25,10 +25,9 @@ export function Skills() {
             <h5>Selecione suas habilidades que podem colaborar com um empreendimento de base tecnológica</h5>
             <div className={styles.boardContainer}>
                 <div className={styles.grid}>
-                    <SkillsOption skillType='Software' source={softwareImg}/>
-                    <SkillsOption skillType='Business' source={businessImg}/>
-                    <SkillsOption skillType='Design' source={designImg}/>
-                    <SkillsOption skillType='Networking' source={networkingImg}/>                    
+                    <SkillsOption skillType='Knowledge' source={knowledgeImg}/>
+                    <SkillsOption skillType='Skills' source={skillsImg}/>
+                    <SkillsOption skillType='Experience' source={designImg}/>
                 </div>
 
                 <div className={styles.buttons}>

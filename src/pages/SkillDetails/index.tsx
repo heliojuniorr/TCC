@@ -2,16 +2,14 @@ import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from '../SkillDetails/styles.module.scss'
 
-const software: string[] = ['C#', 'JavaScript', 'HTML', 'Banco de dados']
-const business: string[] = []
-const design: string[] = []
-const networking: string[] = []
+const knowledge: string[] = ['Venture capital', 'Arquitetura de software', 'Gestão de projetos']
+const skills: string[] = ['Finanças', 'Relações públicas', 'Mídias', 'Relações humanas']
+const experience: string[] = ['Parcerias empresariais', 'Startups', 'C-Level', 'Programas de aceleração']
 
 const specificSkills = {
-    "software": software,
-    "business": business,
-    "design": design,
-    "networking": networking
+    "knowledge": knowledge,
+    "skills": skills,
+    "experience": experience,
 }
 
 export function SkillDetails() {
@@ -58,7 +56,7 @@ export function SkillDetails() {
             <h5>Escolha suas habilidades e domínio referente ao grupo de habilidades escolhido</h5>
             <div className={styles.boardContainer}>
                 {
-                    specificSkills['software'].map((value, index) => {
+                    specificSkills['experience'].map((value, index) => {
                         return <SkillLevel key={index} skillName={value}/>
                     })
                 }
