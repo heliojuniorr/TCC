@@ -1,0 +1,43 @@
+.homeContainer {
+    padding: 3rem;
+    background-color: #2b94d6;
+    width: 100vw;
+    height: 100vh;
+    color: rgb(238, 234, 234);
+}
+
+.formContainer {
+    padding: 3rem;
+}
+
+.formInputGroup {
+    display: flex;
+    justify-content: space-between;
+}
+
+.textField {
+    width: 35vw;
+}
+
+button {
+    padding: 5px;
+    border-radius: 5px;
+    border: none;
+    color: rgb(34, 33, 33);
+}
+
+.signUpButton {
+    background-color: #75bb6a;
+}
+
+.signOnContainer {
+    padding-left: 3rem;
+    span {
+        margin-right: 10px;
+    }
+}
+
+.signOnButton {
+    font-size: 0.9rem;
+    background-color: #9966d3;
+}

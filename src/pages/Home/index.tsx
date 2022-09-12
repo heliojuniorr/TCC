@@ -1,14 +1,14 @@
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
-import styles from '../SignUp/styles.module.scss'
+import styles from './styles.module.scss'
 
-export function SignUp() {
+export function Home() {
     const navigate = useNavigate()
 
     return (
-        <main className={styles.signUpContainer}>
-            <h2>Informações básicas</h2>
+        <main className={styles.homeContainer}>
+            <h2>Cadastre-se</h2>
             <Form className={styles.formContainer}>
                 <div className={styles.formInputGroup}>
                     <div>
@@ -46,10 +46,15 @@ export function SignUp() {
                     </div>
                 </div>
                 
-                <Button variant="primary" type="submit" onClick={() => {navigate("/skills")}}>
-                    Prosseguir
-                </Button>
+                <button className={styles.signUpButton} type="submit" onClick={() => {navigate("/skills")}}>
+                    Cadastrar
+                </button>
             </Form>
+
+            <div className={styles.signOnContainer}>
+                <span>Já possui cadastro?</span>
+                <button className={styles.signOnButton}>Entrar</button>
+            </div>
         </main>
     )
 }

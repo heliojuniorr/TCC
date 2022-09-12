@@ -12,6 +12,12 @@ const specificSkills = {
     "experience": experience,
 }
 
+const label = {
+    "knowledge": "Conhecimentos",
+    "skills": "Habilidades",
+    "experience": "Experiências",
+}
+
 export function SkillDetails() {
     const navigate = useNavigate()
     const urlParams = useParams<{skill: string}>()
@@ -52,11 +58,13 @@ export function SkillDetails() {
     
     return (
         <main className={styles.skillsContainer}>
-            <h2>Skills | {urlParams.skill}</h2>
-            <h5>Escolha suas habilidades e domínio referente ao grupo de habilidades escolhido</h5>
+            {/*@ts-ignore*/}
+            <h2>{label[urlParams.skill]}</h2>
+            <h5>Escolha o seu domínio referente a cada característica</h5>
             <div className={styles.boardContainer}>
                 {
-                    specificSkills['experience'].map((value, index) => {
+                    //@ts-ignore
+                    specificSkills[urlParams.skill].map((value, index) => {
                         return <SkillLevel key={index} skillName={value}/>
                     })
                 }
