@@ -1,3 +1,4 @@
+import { ChangeEvent, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import styles from '../SkillDetails/styles.module.scss'
@@ -5,6 +6,7 @@ import styles from '../SkillDetails/styles.module.scss'
 const knowledge: string[] = ['Venture capital', 'Arquitetura de software', 'Gestão de projetos']
 const skills: string[] = ['Finanças', 'Relações públicas', 'Mídias', 'Relações humanas']
 const experience: string[] = ['Parcerias empresariais', 'Startups', 'C-Level', 'Programas de aceleração']
+const levels: string[] = ["None", "Aprendiz", 'Basico', "Intermediario", "Avancado"]
 
 const specificSkills = {
     "knowledge": knowledge,
@@ -21,36 +23,70 @@ const label = {
 export function SkillDetails() {
     const navigate = useNavigate()
     const urlParams = useParams<{skill: string}>()
+    const [selectedLevel, setSelectedLevel] = useState({} as Record<string, "None" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado">)
+
+
+    function handleConfirm() {
+        console.log(selectedLevel)
+        //navigate('/skills')
+    }
 
     function SkillLevel(props: {skillName: string}) {
+
+        function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+            if(e.target.name.includes("None")) {
+                setSelectedLevel(value => {
+                    value[props.skillName.replaceAll(" ", '')] = "None"
+                    return value
+                })
+            }
+            else if(e.target.name.includes("Aprendiz")) {
+                setSelectedLevel(value => {
+                    value[props.skillName.replaceAll(" ", '')] = "Aprendiz"
+                    return value
+                })
+            }
+            else if(e.target.name.includes("Basico")) {
+                setSelectedLevel(value => {
+                    value[props.skillName.replaceAll(" ", '')] = "Basico"
+                    return value
+                })
+            }
+            else if(e.target.name.includes("Intermediario")) {
+                setSelectedLevel(value => {
+                    value[props.skillName.replaceAll(" ", '')] = "Intermediario"
+                    return value
+                })
+            }
+            else {
+                setSelectedLevel(value => {
+                    value[props.skillName.replaceAll(" ", '')] = "Avancado"
+                    return value
+                })
+            }
+        }
+
         return (
             <div className={styles.skillLevelContainer}>
-                <div>
-                    <input id={`${props.skillName}CheckBox`} type="checkbox" name='' value=""/>
-                    <label htmlFor={`${props.skillName}CheckBox`}>{props.skillName}</label>
-                </div>
-
+                <h5>{props.skillName}</h5>
                 <div className={styles.radioButtonContainer}>
                     <span>Domínio</span>
-                    <div className={styles.radioButton}>
-                        <input type="radio" name={`${props.skillName}Level`} id={`${props.skillName}AprendizLevel`}/>
-                        <label htmlFor={`${props.skillName}AprendizLevel`}>Aprendiz</label>
-                    </div>
-                    
-                    <div className={styles.radioButton}>
-                        <input type="radio" name={`${props.skillName}Level`} id="basicoLevel"/>
-                        <label htmlFor={`${props.skillName}BasicoLevel`}>Básico</label>
-                    </div>
-                    
-                    <div className={styles.radioButton}>
-                        <input type="radio" name={`${props.skillName}Level`} id="intermediarioLevel"/>
-                        <label htmlFor={`${props.skillName}IntermediarioLevel`}>Intermediário</label>
-                    </div>
-
-                    <div className={styles.radioButton}>
-                        <input type="radio" name={`${props.skillName}Level`} id="avancadoLevel"/>
-                        <label htmlFor={`${props.skillName}AvancadoLevel`}>Avançado</label>
-                    </div>
+                    {
+                        levels.map((value, index) => {
+                            return (
+                                <div className={styles.radioButton} key={index}>
+                                    <input 
+                                        type="radio" 
+                                        name={`${props.skillName.replaceAll(" ", '')}${value}Level`} 
+                                        id={`${props.skillName.replaceAll(" ", '')}${value}Level`} 
+                                        checked={selectedLevel[props.skillName.replaceAll(" ", '')] === value}
+                                        onChange={handleOnChange}
+                                    />
+                                    <label htmlFor={`${props.skillName.replaceAll(" ", '')}${value}Level`}>{value}</label>
+                                </div>
+                            )
+                        })
+                    }
                 </div>
             </div>
         )
@@ -73,7 +109,7 @@ export function SkillDetails() {
                     <Button variant="primary" type="submit" onClick={() => {navigate('/skills')}}>
                         Voltar
                     </Button>
-                    <Button variant="primary" type="submit" onClick={() => {navigate('/skills')}}>
+                    <Button variant="primary" type="submit" onClick={handleConfirm}>
                         Confirmar habilidades
                     </Button>
                 </div>
