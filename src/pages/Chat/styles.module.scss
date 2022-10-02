@@ -1,0 +1,21 @@
+.chatContainer {
+    padding: 3rem;
+    width: 100vw;
+    height: 100vh;
+}
+
+.messagesContainer {
+    height: 75vh;
+    overflow-y: auto;
+    margin: 10px;
+    color: rgb(238, 234, 234);
+}
+
+.footer {
+    display: flex;
+    gap: 15px;
+}
+
+.button {
+    padding: 10px;
+}

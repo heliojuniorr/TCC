@@ -12,6 +12,9 @@ export function Search() {
     }
 
     function Entity() {
+        function handleGetInTouch() {
+            navigate('/chat/2')
+        }
 
         return (
             <div className={styles.entityContainer}>
@@ -21,7 +24,9 @@ export function Search() {
                     <div>Especialidade: {teste.especialidade}</div>
                 </div>
 
-                <button>Entrar em contato</button>
+                <button onClick={handleGetInTouch}>
+                    Entrar em contato
+                </button>
             </div>
         )
     }
