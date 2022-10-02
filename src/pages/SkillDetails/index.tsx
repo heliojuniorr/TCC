@@ -28,10 +28,11 @@ export function SkillDetails() {
 
     function handleConfirm() {
         console.log(selectedLevel)
-        //navigate('/skills')
+        navigate('/skills')
     }
 
     function SkillLevel(props: {skillName: string}) {
+        const [selected, setSelected] = useState({} as "None" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado")
 
         function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
             if(e.target.name.includes("None")) {
@@ -39,30 +40,35 @@ export function SkillDetails() {
                     value[props.skillName.replaceAll(" ", '')] = "None"
                     return value
                 })
+                setSelected("None")
             }
             else if(e.target.name.includes("Aprendiz")) {
                 setSelectedLevel(value => {
                     value[props.skillName.replaceAll(" ", '')] = "Aprendiz"
                     return value
                 })
+                setSelected("Aprendiz")
             }
             else if(e.target.name.includes("Basico")) {
                 setSelectedLevel(value => {
                     value[props.skillName.replaceAll(" ", '')] = "Basico"
                     return value
                 })
+                setSelected("Basico")
             }
             else if(e.target.name.includes("Intermediario")) {
                 setSelectedLevel(value => {
                     value[props.skillName.replaceAll(" ", '')] = "Intermediario"
                     return value
                 })
+                setSelected("Intermediario")
             }
             else {
                 setSelectedLevel(value => {
                     value[props.skillName.replaceAll(" ", '')] = "Avancado"
                     return value
                 })
+                setSelected("Avancado")
             }
         }
 
@@ -79,7 +85,7 @@ export function SkillDetails() {
                                         type="radio" 
                                         name={`${props.skillName.replaceAll(" ", '')}${value}Level`} 
                                         id={`${props.skillName.replaceAll(" ", '')}${value}Level`} 
-                                        checked={selectedLevel[props.skillName.replaceAll(" ", '')] === value}
+                                        checked={selected === value}
                                         onChange={handleOnChange}
                                     />
                                     <label htmlFor={`${props.skillName.replaceAll(" ", '')}${value}Level`}>{value}</label>
