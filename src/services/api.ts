@@ -1,4 +1,5 @@
 import axios from "axios"
+import {} from './firebase'
 
 const api = axios.create({
     baseURL: "/api"
