@@ -1,8 +1,38 @@
-import { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
+import { FirebaseEventType, FirebaseGroupsType, FirebaseMessageType, FirebaseUserType, GroupListType, GroupType, MessageType, UserType } from "../interfaces/types"
+import { database, firebaseChild, firebaseGet, firebasePush, firebaseRef, firebaseUpdate } from "../services/firebase"
+import { useAuth } from "./useAuth"
 
-export function useAuth() {
-    const value = useContext(AuthContext)
+export function useEvent() {
+    const { user } = useAuth()
+    const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
+    const eventChild = (eventId?: string) => firebaseChild(firebaseRef(database), `events/${eventId ?? ""}`)
+    const groupChild = (groupId?: string) => firebaseChild(firebaseRef(database), `groups/${groupId ?? ""}`)
+    const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
 
-    return value
+    function updateUser(eventKey: string) {
+        firebaseGet(userChild).then((snapshot) => {
+            if(snapshot.exists()) {
+                const parsedUser: UserType = snapshot.val()
+
+                let updates: FirebaseUserType = {}
+                if(eventKey !== '') {
+                    if(user?.id) {
+                        updates[`/users/${user.id}`] = {
+                            ...parsedUser,
+                            name: user.name,
+                            events: parsedUser?.events ? [...parsedUser.events, eventKey] : [eventKey]
+                        };
+                        updateFirebase(updates)
+                    }
+                }
+            }
+            else {
+                console.error("No data available!")
+            }
+        }).catch(error => console.error(error))
+    }
+
+    return { 
+        updateUser, 
+    }
 }
