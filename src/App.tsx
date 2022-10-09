@@ -6,19 +6,22 @@ import { SkillDetails } from "./pages/SkillDetails";
 import { Search } from "./pages/Search";
 import { Home } from "./pages/Home";
 import { Chat } from "./pages/Chat";
+import { AuthContextProvider } from "./context/AuthContext";
 
 function App() {
   return (
     <>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/skills" element={<Skills/>}/>
-          <Route path="/skilldetails/:skill" element={<SkillDetails/>}/>
-          <Route path="/search" element={<Search/>}/>
-          <Route path="/chat/:id" element={<Chat/>}/>
-        </Routes>
+        <AuthContextProvider>
+          <Routes>
+            <Route path="/" element={<Home/>}/>
+            <Route path="/signup" element={<SignUp/>}/>
+            <Route path="/skills" element={<Skills/>}/>
+            <Route path="/skilldetails/:skill" element={<SkillDetails/>}/>
+            <Route path="/search" element={<Search/>}/>
+            <Route path="/chat/:id" element={<Chat/>}/>
+          </Routes>
+        </AuthContextProvider>
       </BrowserRouter>
     </>  
   );

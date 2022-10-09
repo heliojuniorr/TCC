@@ -1,15 +1,10 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
+import { UserType } from "../interfaces/types";
 import { GoogleAuthProvider, signInWithRedirect, getAuth, getRedirectResult, onAuthStateChanged, signOut } from "../services/firebase"
 
-type User = {
-    id: string;
-    name: string;
-    image: string;
-}
-  
 type AuthContextType = {
-    user: User | undefined;
+    user: UserType | undefined;
     signInWithGoogle: () => Promise<void>;
     signOutWithGoogle: () => Promise<void>;
 }
@@ -21,7 +16,7 @@ type AuthContextProviderProps = {
 export const AuthContext = createContext({} as AuthContextType)
 
 export function AuthContextProvider(props: AuthContextProviderProps) {
-    const [user, setUser] = useState<User>()
+    const [user, setUser] = useState<UserType>()
     const auth = getAuth()
     const navigate = useNavigate()
 
@@ -35,7 +30,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           setUser({
             id: uid,
             name: displayName,
-            image: 'padrao'
           })
           if(true) {
             navigate('/skills')
@@ -51,7 +45,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     async function signInWithGoogle() {
         const provider = new GoogleAuthProvider()
         const auth = getAuth()
-  
         signInWithRedirect(auth, provider)
         getRedirectResult(auth).then((result) => {
             if(result?.user) {

@@ -1,6 +1,9 @@
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
+import { FirebaseUserType, UserType } from '../../interfaces/types'
+import { database, firebaseChild, firebaseGet, firebaseRef, firebaseUpdate } from '../../services/firebase'
 import styles from '../SkillDetails/styles.module.scss'
 
 const knowledge: string[] = ['Venture capital', 'Arquitetura de software', 'Gestão de projetos']
@@ -22,8 +25,33 @@ const label = {
 
 export function SkillDetails() {
     const navigate = useNavigate()
+    const {user} = useAuth()
     const urlParams = useParams<{skill: string}>()
     const [selectedLevel, setSelectedLevel] = useState({} as Record<string, "None" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado">)
+    const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
+    const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
+
+    useEffect(() => {
+        const unsubscribe = () => {
+            if(user) {
+                firebaseGet(userChild).then((snapshot) => {
+                    if(snapshot.exists()) {
+                        const parsedUser: UserType = snapshot.val()
+                        console.log(parsedUser)
+                    }
+                    else {
+                        let userUpdates: FirebaseUserType = {}
+                        userUpdates[`/users/${user.id}`] = {
+                            name: user.name
+                        };
+                        updateFirebase(userUpdates)
+                    }
+                }).catch(error => console.error(error))
+            }
+        }
+
+        return unsubscribe
+    }, [])
 
 
     function handleConfirm() {

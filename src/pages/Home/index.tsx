@@ -9,27 +9,18 @@ export function Home() {
     const navigate = useNavigate()
 
     async function handleLogon() {
-        if(!user) { 
+        if(!user) 
             await signInWithGoogle()
-        }
+        else
+            navigate("/skills")
     }
 
     return (
         <main className={styles.homeContainer}>
-            <h2>Cadastre-se</h2>
-            <Form className={styles.formContainer}>
-                <div className={styles.formInputGroup}>
-                </div>
-                
-                <button className={styles.signUpButton} type="submit" onClick={() => {navigate("/skills")}}>
-                    Cadastrar
-                </button>
-            </Form>
-
-            <div className={styles.signOnContainer}>
-                <span>Já possui cadastro?</span>
-                <button className={styles.signOnButton}>Entrar</button>
-            </div>
+            <h2>Cadastrar/entrar</h2>
+            <button className={styles.signUpButton} onClick={handleLogon}>
+                Cadastrar
+            </button>
         </main>
     )
 }
