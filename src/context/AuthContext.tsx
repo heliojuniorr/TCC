@@ -58,7 +58,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 setUser({
                     id: uid,
                     name: displayName,
-                    image: 'padrao'
                 })
                 if(true) {
                   navigate('/skills')
