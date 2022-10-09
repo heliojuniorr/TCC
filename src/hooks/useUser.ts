@@ -1,6 +1,14 @@
-import { FirebaseEventType, FirebaseGroupsType, FirebaseMessageType, FirebaseUserType, GroupListType, GroupType, MessageType, UserType } from "../interfaces/types"
 import { database, firebaseChild, firebaseGet, firebasePush, firebaseRef, firebaseUpdate } from "../services/firebase"
 import { useAuth } from "./useAuth"
+
+type UserType = {
+    id?: string,
+    name?: string
+}
+
+type FirebaseUserType = Record<string, {
+    name?: string
+}>
 
 export function useEvent() {
     const { user } = useAuth()
@@ -20,7 +28,6 @@ export function useEvent() {
                         updates[`/users/${user.id}`] = {
                             ...parsedUser,
                             name: user.name,
-                            events: parsedUser?.events ? [...parsedUser.events, eventKey] : [eventKey]
                         };
                         updateFirebase(updates)
                     }
