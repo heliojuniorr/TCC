@@ -8,8 +8,8 @@ import styles from '../SkillDetails/styles.module.scss'
 
 const knowledge: string[] = ['Venture capital', 'Arquitetura de software', 'Gestão de projetos']
 const skills: string[] = ['Finanças', 'Relações públicas', 'Mídias', 'Relações humanas']
-const experience: string[] = ['Parcerias empresariais', 'Startups', 'C-Level', 'Programas de aceleração']
-const levels: string[] = ["None", "Aprendiz", 'Basico', "Intermediario", "Avancado"]
+const experience: string[] = ['Parcerias empresariais', 'Startups', 'C Level', 'Programas de aceleração']
+const levels: string[] = ["Nenhum", "Aprendiz", 'Basico', "Intermediario", "Avancado"]
 
 const specificSkills = {
     "knowledge": knowledge,
@@ -27,7 +27,7 @@ export function SkillDetails() {
     const navigate = useNavigate()
     const {user} = useAuth()
     const urlParams = useParams<{skill: string}>()
-    const [selectedLevel, setSelectedLevel] = useState({} as Record<string, "None" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado">)
+    const [selectedLevel, setSelectedLevel] = useState({} as Record<string, "Nenhum" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado">)
     const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
 
@@ -37,7 +37,18 @@ export function SkillDetails() {
                 firebaseGet(userChild).then((snapshot) => {
                     if(snapshot.exists()) {
                         const parsedUser: UserType = snapshot.val()
-                        console.log(parsedUser)
+                        let temp = selectedLevel
+                        const promise = Object.entries(parsedUser).map((value) => {
+                            //@ts-ignore
+                            temp[value[0]] = value[1]
+                        })
+                        Promise.all(promise)
+                            .then(() => {
+                                setSelectedLevel(temp)
+                            })
+                            .catch((error) => {
+                                console.error(error)
+                            })
                     }
                     else {
                         let userUpdates: FirebaseUserType = {}
@@ -55,20 +66,36 @@ export function SkillDetails() {
 
 
     function handleConfirm() {
-        console.log(selectedLevel)
-        navigate('/skills')
+        if(user) {
+            let userUpdates: FirebaseUserType = {}
+                userUpdates[`/users/${user.id}`] = {
+                    ...selectedLevel
+                };
+                updateFirebase(userUpdates)
+        }
+        navigate("/skills")
     }
 
     function SkillLevel(props: {skillName: string}) {
-        const [selected, setSelected] = useState({} as "None" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado")
+        const [selected, setSelected] = useState({} as "Nenhum" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado")
+
+        useEffect(() => {
+            const unsubscribe = () => {
+                setTimeout(() => {
+                    setSelected(selectedLevel[props.skillName.replaceAll(" ", '')])
+                }, 1000)
+            }
+
+            return unsubscribe()    
+        }, [selectedLevel])
 
         function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
-            if(e.target.name.includes("None")) {
+            if(e.target.name.includes("Nenhum")) {
                 setSelectedLevel(value => {
-                    value[props.skillName.replaceAll(" ", '')] = "None"
+                    value[props.skillName.replaceAll(" ", '')] = "Nenhum"
                     return value
                 })
-                setSelected("None")
+                setSelected("Nenhum")
             }
             else if(e.target.name.includes("Aprendiz")) {
                 setSelectedLevel(value => {
@@ -143,7 +170,7 @@ export function SkillDetails() {
                     <Button variant="primary" type="submit" onClick={() => {navigate('/skills')}}>
                         Voltar
                     </Button>
-                    <Button variant="primary" type="submit" onClick={handleConfirm}>
+                    <Button variant="primary" onClick={handleConfirm}>
                         Confirmar habilidades
                     </Button>
                 </div>
