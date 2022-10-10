@@ -1,43 +1,60 @@
 .homeContainer {
-    padding: 3rem;
-    background-color: #2b94d6;
-    width: 100vw;
-    height: 100vh;
-    color: rgb(238, 234, 234);
-}
-
-.formContainer {
-    padding: 3rem;
-}
-
-.formInputGroup {
     display: flex;
-    justify-content: space-between;
-}
+    flex-direction: column;
+    
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 5rem 5rem;
+    background: #2b94d6;
+    color: rgb(238, 234, 234);
 
-.textField {
-    width: 35vw;
-}
-
-button {
-    padding: 5px;
-    border-radius: 5px;
-    border: none;
-    color: rgb(34, 33, 33);
-}
-
-.signUpButton {
-    background-color: #75bb6a;
-}
-
-.signOnContainer {
-    padding-left: 3rem;
-    span {
-        margin-right: 10px;
+    >img {
+        width: 20rem;
     }
 }
 
-.signOnButton {
-    font-size: 0.9rem;
-    background-color: #9966d3;
+.signUpButton {
+    margin-top: 32px;
+    height: 50px;
+    width: 320px;
+    border-radius: 8px;
+    font-weight: 500;
+    background: #ea4335;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border: 0;
+    transition: filter 0.2s;
+    
+    img {
+        margin-right: 8px;
+    }
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+
+strong {
+    font: 700 36px 'Poppings', sans-serif;
+    line-height: 42px;
+    margin-top: 16px;
+    @media only screen and (max-width: 480px) {
+        font: 700 24px 'Poppings', sans-serif;
+    }
+}
+
+p {
+    font-size: 24px;
+    line-height: 32px;
+    margin-top: 16px;
+    
+    @media only screen and (max-width: 480px) {
+        font-size: 16px;
+        line-height: 24px;
+    }
 }

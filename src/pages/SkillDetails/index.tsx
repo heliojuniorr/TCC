@@ -62,7 +62,7 @@ export function SkillDetails() {
         }
 
         return unsubscribe
-    }, [])
+    }, [user])
 
 
     function handleConfirm() {

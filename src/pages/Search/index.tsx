@@ -35,27 +35,13 @@ export function Search() {
         <main className={styles.searchOnContainer}>
             <h2>Buscar recomendações para colaborar</h2>
             <div className={styles.entitiesContainer}>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
-                <Entity/>
             </div>  
 
             <div className={styles.buttonsContainer}>
-                <Button variant="primary" type="submit" onClick={() => {navigate("/skills")}}>
+                <Button variant="primary" onClick={() => {navigate("/skills")}}>
                     Voltar
                 </Button>
-                <Button variant="primary" type="submit" onClick={() => {navigate("/")}}>
+                <Button variant="primary" >
                     Buscar colaboradores
                 </Button>
             </div>  

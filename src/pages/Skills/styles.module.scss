@@ -1,5 +1,9 @@
 .skillsContainer {
-    margin: 50px;
+    height: 100vh;
+    width: 100%;
+    padding: 5rem 5rem;
+    background: #2b94d6;
+    color: rgb(238, 234, 234);
 }
 
 .boardContainer {
@@ -20,15 +24,30 @@
     border: 3px solid black;
     border-radius: 10px;
     margin: 20px;
+    background: #2b94d6;
 
     img {
         margin-bottom: 20px;
         width: 60px;
     }
+
+    &:hover {
+        filter: brightness(0.9);
+    }
 }
 
-.buttons{
+.buttonsContainer{
     display: flex;
     justify-content: space-between;
     padding-top: 15px;
+}
+
+h2, h5 {
+    line-height: 32px;
+    margin-top: 16px;
+    
+    @media only screen and (max-width: 480px) {
+        font-size: 16px;
+        line-height: 24px;
+    }
 }

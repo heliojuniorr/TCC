@@ -1,0 +1,32 @@
+export type UserType = {
+    id?: string,
+    name?: string,
+    Arquiteturadesoftware?: string,
+    CLevel?: string,
+    Finanças?: string,
+    Gestãodeprojetos?: string,
+    Mídias?: string,
+    Parceriasempresariais?: string,
+    Programasdeaceleração?: string,
+    Relaçõeshumanas?: string,
+    Relaçõespúblicas?: string,
+    Startups?: string,
+    Venturecapital?: string,
+    institutional?: boolean,
+}
+
+export type FirebaseUserType = Record<string, {
+    name?: string,
+    Arquiteturadesoftware?: string,
+    CLevel?: string,
+    Finanças?: string,
+    Gestãodeprojetos?: string,
+    Mídias?: string,
+    Parceriasempresariais?: string,
+    Programasdeaceleração?: string,
+    Relaçõeshumanas?: string,
+    Relaçõespúblicas?: string,
+    Startups?: string,
+    Venturecapital?: string,
+    institutional?: boolean,
+}>

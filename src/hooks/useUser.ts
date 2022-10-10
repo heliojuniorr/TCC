@@ -5,8 +5,6 @@ import { useAuth } from "./useAuth"
 export function useEvent() {
     const { user } = useAuth()
     const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
-    const eventChild = (eventId?: string) => firebaseChild(firebaseRef(database), `events/${eventId ?? ""}`)
-    const groupChild = (groupId?: string) => firebaseChild(firebaseRef(database), `groups/${groupId ?? ""}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
 
     function updateUser(eventKey: string) {

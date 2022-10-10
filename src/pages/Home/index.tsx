@@ -1,8 +1,8 @@
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import styles from './styles.module.scss'
+import googleIconImg from "../../resources/google-icon.svg"
+import logoImg from "../../resources/logo.svg"
 
 export function Home() {
     const {signInWithGoogle, user} = useAuth()
@@ -17,9 +17,12 @@ export function Home() {
 
     return (
         <main className={styles.homeContainer}>
-            <h2>Cadastrar/entrar</h2>
+            <img src={logoImg} alt="Logo" />
+            <strong>Encontre conexões para a sua jornada de empreendedorismo</strong>
+            <p>Conheça pessoas e instituições que te complementam</p>
             <button className={styles.signUpButton} onClick={handleLogon}>
-                Cadastrar
+                <img src={googleIconImg} alt="Logo do Google" />
+                Entre com sua conta do Google
             </button>
         </main>
     )
