@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import { MessageType, FirebaseMessageType } from '../../interfaces/types'
+import { MessageType, FirebaseMessageType, UserType } from '../../interfaces/types'
 import { database, firebaseChild, firebaseGet, firebasePush, firebaseRef, firebaseUpdate } from '../../services/firebase'
 import styles from './styles.module.scss'
 
@@ -11,8 +11,10 @@ export function Chat() {
     const {user} = useAuth()
     const [messages, setMessages] = useState({} as MessageType[])
     const [messageInput, setMessageInput] = useState("")
+    const [name, setName] = useState("")
 
     const chatChild = (chatId: string) => firebaseChild(firebaseRef(database), `chats/${chatId}`)
+    const userChild = firebaseChild(firebaseRef(database), `users/${urlParams.id}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
     let chatId = ""
 
@@ -44,6 +46,15 @@ export function Chat() {
             setInterval(() => {
                 updateChat()
             }, 5000)
+
+            if(user) {
+                firebaseGet(userChild).then((snapshot) => {
+                    if(snapshot.exists()) {
+                        const parsedUser: UserType = snapshot.val()
+                        setName(parsedUser.name || "")
+                    }
+                }).catch(error => console.error(error))
+            }
         }
 
         return unsubscribe
@@ -78,7 +89,7 @@ export function Chat() {
 
     return (
         <main className={styles.chatContainer}>
-            <h3>Conversa com {urlParams.id}</h3>
+            <h3>Conversa com {name}</h3>
 
             <div className={styles.messagesContainer}>
                 {

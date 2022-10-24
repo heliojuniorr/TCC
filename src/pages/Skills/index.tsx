@@ -24,6 +24,8 @@ export function Skills() {
                     firebaseGet(userChild).then((snapshot) => {
                         if(snapshot.exists()) {
                             const parsedUser: UserType = snapshot.val()
+                            if(!parsedUser.education || !parsedUser.businessArea || !parsedUser.specialty || !parsedUser.location)
+                                navigate("/signup")
                             setInstitutional(parsedUser.institutional ?? false)
                         }
                     }).catch(error => console.error(error))

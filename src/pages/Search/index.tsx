@@ -20,6 +20,9 @@ export function Search() {
                 <div>
                     <div>Nome: {props.value.name}</div>
                     <div>Localidade: {props.value.location}</div>
+                    <div>Especialidade: {props.value.specialty}</div>
+                    <div>Área para empreender: {props.value.businessArea}</div>
+                    <div>Educação: {props.value.education}</div>
                 </div>
 
                 <button onClick={handleGetInTouch}>
