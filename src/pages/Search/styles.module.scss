@@ -20,9 +20,20 @@
     border-radius: 15px;
     justify-content: space-between;
 
+    &:hover {
+        filter: brightness(0.9);
+    }
+
     button {
         font-size: large;
         background-color: #75bb6a;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+
+        &:hover {
+            filter: brightness(1.1);
+        }
     }
 }
 

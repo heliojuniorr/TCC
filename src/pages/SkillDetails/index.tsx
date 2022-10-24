@@ -27,7 +27,7 @@ export function SkillDetails() {
     const navigate = useNavigate()
     const {user} = useAuth()
     const urlParams = useParams<{skill: string}>()
-    const [selectedLevel, setSelectedLevel] = useState({} as Record<string, "Nenhum" | "Aprendiz" | 'Basico' | "Intermediario" | "Avancado">)
+    const [selectedLevel, setSelectedLevel] = useState({} as Record<string, 1 | 2 | 3 | 4 | 5>)
     const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
 
@@ -69,6 +69,7 @@ export function SkillDetails() {
         if(user) {
             let userUpdates: FirebaseUserType = {}
                 userUpdates[`/users/${user.id}`] = {
+                    name: user.name,
                     ...selectedLevel
                 };
                 updateFirebase(userUpdates)
@@ -82,45 +83,54 @@ export function SkillDetails() {
         useEffect(() => {
             const unsubscribe = () => {
                 setTimeout(() => {
-                    setSelected(selectedLevel[props.skillName.replaceAll(" ", '')])
+                    //@ts-ignore
+                    setSelected(levelValue[selectedLevel[props.skillName.replaceAll(" ", '')]])
                 }, 1000)
             }
 
             return unsubscribe()    
         }, [selectedLevel])
 
+        const levelValue = {
+            1: "Nenhum",
+            2: "Aprendiz",
+            3: "Basico",
+            4: "Intermediario",
+            5: "Avancado"
+        }
+
         function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
             if(e.target.name.includes("Nenhum")) {
                 setSelectedLevel(value => {
-                    value[props.skillName.replaceAll(" ", '')] = "Nenhum"
+                    value[props.skillName.replaceAll(" ", '')] = 1
                     return value
                 })
                 setSelected("Nenhum")
             }
             else if(e.target.name.includes("Aprendiz")) {
                 setSelectedLevel(value => {
-                    value[props.skillName.replaceAll(" ", '')] = "Aprendiz"
+                    value[props.skillName.replaceAll(" ", '')] = 2
                     return value
                 })
                 setSelected("Aprendiz")
             }
             else if(e.target.name.includes("Basico")) {
                 setSelectedLevel(value => {
-                    value[props.skillName.replaceAll(" ", '')] = "Basico"
+                    value[props.skillName.replaceAll(" ", '')] = 3
                     return value
                 })
                 setSelected("Basico")
             }
             else if(e.target.name.includes("Intermediario")) {
                 setSelectedLevel(value => {
-                    value[props.skillName.replaceAll(" ", '')] = "Intermediario"
+                    value[props.skillName.replaceAll(" ", '')] = 4
                     return value
                 })
                 setSelected("Intermediario")
             }
             else {
                 setSelectedLevel(value => {
-                    value[props.skillName.replaceAll(" ", '')] = "Avancado"
+                    value[props.skillName.replaceAll(" ", '')] = 5
                     return value
                 })
                 setSelected("Avancado")

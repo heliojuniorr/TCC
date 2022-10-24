@@ -32,6 +32,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             name: displayName,
           })
           if(true) {
+            // navigate("/signUp")
             navigate('/skills')
           }
         }
@@ -76,7 +77,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       signOut(auth).then(() => {
         navigate('/')
       }).catch((error) => {
-        console.log(error)
+        console.error(error)
       });
     }
 
