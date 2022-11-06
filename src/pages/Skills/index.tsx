@@ -4,7 +4,6 @@ import knowledgeImg from '../../resources/knowledge.svg'
 import skillsImg from '../../resources/skills.svg'
 import designImg from '../../resources/design.svg'
 import styles from '../Skills/styles.module.scss'
-import logoImg from "../../resources/logo.svg"
 import { useEffect, useState } from 'react'
 import { database, firebaseChild, firebaseGet, firebaseRef, firebaseUpdate } from '../../services/firebase'
 import { useAuth } from '../../hooks/useAuth'

@@ -1,17 +1,21 @@
 import { useState } from "react"
 import { Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import { FirebaseUserType, UserType } from "../../interfaces/types"
-import { database, firebaseChild, firebaseGet, firebaseRef } from "../../services/firebase"
+import { useAuth } from "../../hooks/useAuth"
+import { ApiUserType} from "../../interfaces/types"
+import { api } from "../../services/api"
+import { database, firebaseChild, firebaseRef } from "../../services/firebase"
 import styles from '../Search/styles.module.scss'
 
 export function Search() {
     const navigate = useNavigate()
+    const {user} = useAuth()
     const usersChild = firebaseChild(firebaseRef(database), `users/`)
-    const [searchResult, setSearchResult] = useState<FirebaseUserType[]>({} as FirebaseUserType[])
+    const [searchResult, setSearchResult] = useState<ApiUserType[]>([] as ApiUserType[])
 
-    function Entity(props: ({value: UserType})) {
+    function Entity(props: ({value: ApiUserType})) {
         function handleGetInTouch() {
+            console.log(props.value)
             navigate(`/chat/${props.value.id}`)
         }
 
@@ -33,13 +37,17 @@ export function Search() {
     }
     
     function handleSearch() {
-        firebaseGet(usersChild).then((snapshot) => {
-            if(snapshot.exists()) {
-                const parsedUsers: FirebaseUserType[] = snapshot.val()
-                setSearchResult(parsedUsers)
-            }
-            
-        }).catch(error => console.error(error))
+        if(user && user.id) {
+            api(
+                {
+                  method: "get",
+                  url: `top?id=${user?.id}`
+                }
+              ).then((response) => {
+                setSearchResult(response.data)
+              })
+              .catch((error) => {console.error(error)})
+        }
     }
     
     return (
@@ -47,9 +55,9 @@ export function Search() {
             <h2>Buscar recomendações para colaborar</h2>
             <div className={styles.entitiesContainer}>
                 {
-                    Object.entries(searchResult).map((value) => {
+                    Object.entries(searchResult)?.map((value) => {
                         return (
-                            <Entity key={value[0]} value={{id: value[0], ...value[1]}}/>
+                            <Entity key={value[0]} value={{...value[1], id: value[0]}}/>
                         )
                     })
                 }

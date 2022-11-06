@@ -1,13 +1,9 @@
 import axios from "axios"
 import {} from './firebase'
 
-const api = axios.create({
-    baseURL: "/api"
+export const api = axios.create({
+    baseURL: "https://cluster-4ynr4qjrha-uc.a.run.app/",
 })
-
-export function createUser() {
-
-}
 
 export function getUserById(id: number) {
     api
