@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import knowledgeImg from '../../resources/knowledge.svg'
 import skillsImg from '../../resources/skills.svg'
 import designImg from '../../resources/design.svg'
+import configImg from '../../resources/config.svg'
 import styles from '../Skills/styles.module.scss'
 import { useEffect, useState } from 'react'
 import { database, firebaseChild, firebaseGet, firebaseRef, firebaseUpdate } from '../../services/firebase'
@@ -10,7 +11,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { FirebaseUserType, UserType } from '../../interfaces/types'
 
 export function Skills() {
-    const {user} = useAuth()
+    const {user, updateUserValues} = useAuth()
     const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
     const navigate = useNavigate()
@@ -19,12 +20,11 @@ export function Skills() {
     useEffect(() => {
         const unsubscribe = () => {
             setTimeout(() => {
+                updateUserValues()
                 if(user) {
                     firebaseGet(userChild).then((snapshot) => {
                         if(snapshot.exists()) {
                             const parsedUser: UserType = snapshot.val()
-                            if(!parsedUser.education || !parsedUser.businessArea || !parsedUser.specialty || !parsedUser.location)
-                                navigate("/signup")
                             setInstitutional(parsedUser.institutional ?? false)
                         }
                     }).catch(error => console.error(error))
@@ -36,8 +36,15 @@ export function Skills() {
     }, [user])
 
     function SkillsOption(props: {skillType: string, source: string, label?: string}) {
+        function handleOnClick() {
+            if(props.skillType == 'signUp')
+                navigate('/signup/')
+            else 
+                navigate(`/skilldetails/${props.skillType}`)
+        }
+
         return (
-            <button className={styles.skillsOption} onClick={() => {navigate(`/skilldetails/${props.skillType}`)}}>
+            <button className={styles.skillsOption} onClick={handleOnClick}>
                 <img src={props.source} alt="Skill image" />
                 <br />
                 <span>{props.label || props.skillType}</span>
@@ -98,6 +105,7 @@ export function Skills() {
                     <SkillsOption skillType='knowledge' label="Conhecimentos" source={knowledgeImg}/>
                     <SkillsOption skillType='skills' label="Habilidades" source={skillsImg}/>
                     <SkillsOption skillType='experience' label="Experiências" source={designImg}/>
+                    <SkillsOption skillType='signUp' label="Dados cadastrais" source={configImg}/>
                 </div>
 
                 <div className={styles.buttonsContainer}>

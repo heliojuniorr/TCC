@@ -1,5 +1,9 @@
 .signUpContainer {
-    margin: 50px;
+    height: 100vh;
+    width: 100%;
+    padding: 2rem 5rem;
+    background: #2b94d6;
+    color: rgb(238, 234, 234);
 }
 
 .formContainer {
@@ -15,4 +19,10 @@
 
 .textField {
     width: 35vw;
+}
+
+.buttonsContainer {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
 }

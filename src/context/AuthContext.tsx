@@ -1,12 +1,13 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
-import { UserType } from "../interfaces/types";
-import { GoogleAuthProvider, signInWithRedirect, getAuth, getRedirectResult, onAuthStateChanged, signOut } from "../services/firebase"
+import { FirebaseUserType, UserType } from "../interfaces/types";
+import { GoogleAuthProvider, signInWithRedirect, getAuth, getRedirectResult, onAuthStateChanged, signOut, firebaseChild, firebaseRef, database, firebaseGet, firebaseUpdate } from "../services/firebase"
 
 type AuthContextType = {
     user: UserType | undefined;
     signInWithGoogle: () => Promise<void>;
     signOutWithGoogle: () => Promise<void>;
+    updateUserValues: () => void;
 }
 
 type AuthContextProviderProps = {
@@ -31,6 +32,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             id: uid,
             name: displayName,
           })
+
+          updateUserValues()
           if(true) {
             navigate('/skills')
           }
@@ -41,6 +44,41 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         unsubscribe();
       }
     }, [])
+
+    function updateUserValues() {
+      const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
+      const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
+
+      firebaseGet(userChild).then((snapshot) => {
+        if(!snapshot.exists() && user) {
+            let userUpdates: FirebaseUserType = {}
+            userUpdates[`/users/${user.id}`] = {
+                Arquiteturadesoftware: 0,
+                businessArea: 'Não informada',
+                CLevel: 0,
+                education: 'Não informada',
+                Finanças: 0,
+                Gestãodeprojetos: 0,
+                institutional: false,
+                location: 'Não informada',
+                Mídias: 0,
+                name: user.name,
+                Parceriasempresariais: 0,
+                Programasdeaceleração: 0,
+                Relaçõeshumanas: 0,
+                Relaçõespúblicas: 0,
+                specialty: 'Não informada',
+                Startups: 0,
+                Venturecapital: 0,
+                ...user
+            };
+            updateFirebase(userUpdates)
+        }
+        else if(snapshot.exists() && user) {
+          setUser(snapshot.val())
+        }
+      }).catch(error => console.error(error))
+    }
   
     async function signInWithGoogle() {
         const provider = new GoogleAuthProvider()
@@ -59,6 +97,9 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                     id: uid,
                     name: displayName,
                 })
+
+                updateUserValues()
+                
                 if(true) {
                   navigate("/signUp")
                 }
@@ -81,7 +122,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{user, signInWithGoogle, signOutWithGoogle}}>
+        <AuthContext.Provider value={{user, signInWithGoogle, signOutWithGoogle, updateUserValues}}>
             {props.children}
         </AuthContext.Provider>
 
