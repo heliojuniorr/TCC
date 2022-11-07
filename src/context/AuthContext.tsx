@@ -75,7 +75,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             updateFirebase(userUpdates)
         }
         else if(snapshot.exists() && user) {
-          setUser(snapshot.val())
+          setUser({...snapshot.val(), ...user})
         }
       }).catch(error => console.error(error))
     }

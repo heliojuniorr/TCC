@@ -1,7 +1,9 @@
 .chatContainer {
-    padding: 3rem;
-    width: 100vw;
     height: 100vh;
+    width: 100%;
+    padding: 2rem 5rem;
+    background: #2b94d6;
+    color: rgb(238, 234, 234);
 }
 
 .messagesContainer {
@@ -23,7 +25,7 @@
 }
 
 .messageContainer {
-    background-color: #2b94d6;
+    background-color: #1b84c6;
     padding: 10px;
     border-radius: 15px;
     margin: 10px;
