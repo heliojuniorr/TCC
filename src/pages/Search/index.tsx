@@ -4,18 +4,15 @@ import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
 import { ApiUserType} from "../../interfaces/types"
 import { api } from "../../services/api"
-import { database, firebaseChild, firebaseRef } from "../../services/firebase"
 import styles from '../Search/styles.module.scss'
 
 export function Search() {
     const navigate = useNavigate()
     const {user} = useAuth()
-    const usersChild = firebaseChild(firebaseRef(database), `users/`)
     const [searchResult, setSearchResult] = useState<ApiUserType[]>([] as ApiUserType[])
 
     function Entity(props: ({value: ApiUserType})) {
         function handleGetInTouch() {
-            console.log(props.value)
             navigate(`/chat/${props.value.id}`)
         }
 

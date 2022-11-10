@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 import { MessageType, FirebaseMessageType, UserType } from '../../interfaces/types'
@@ -103,13 +104,12 @@ export function Chat() {
 
             <div className={styles.footer}>
                 <input type="text" value={messageInput} onChange={(e) => {setMessageInput(e.target.value)}}/>
-                <button className={styles.button} onClick={handleSendMessage}>
+                <Button variant="primary" onClick={handleSendMessage}>
                     Enviar
-                </button>
-
-                <button className={styles.button} onClick={() => navigate('/search')}>
+                </Button>
+                <Button variant="primary" onClick={() => {navigate("/search")}}>
                     Voltar
-                </button>
+                </Button>
             </div>
         </main>
     )

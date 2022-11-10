@@ -20,6 +20,7 @@ export type UserType = {
 }
 
 export type FirebaseUserType = Record<string, {
+    id?: string,
     name?: string,
     location?: string,
     specialty?: string,

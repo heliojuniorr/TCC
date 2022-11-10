@@ -15,25 +15,6 @@ export function Skills() {
     const userChild = firebaseChild(firebaseRef(database), `users/${user?.id}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
     const navigate = useNavigate()
-    const [institutional, setInstitutional] = useState(false)
-
-    useEffect(() => {
-        const unsubscribe = () => {
-            setTimeout(() => {
-                updateUserValues()
-                if(user) {
-                    firebaseGet(userChild).then((snapshot) => {
-                        if(snapshot.exists()) {
-                            const parsedUser: UserType = snapshot.val()
-                            setInstitutional(parsedUser.institutional ?? false)
-                        }
-                    }).catch(error => console.error(error))
-                }
-            }, 1000)
-        }
-
-        return unsubscribe()
-    }, [user])
 
     function SkillsOption(props: {skillType: string, source: string, label?: string}) {
         function handleOnClick() {
@@ -52,55 +33,11 @@ export function Skills() {
         )
     }
 
-    function handleInstitutionChange() {
-        if(user) {
-            firebaseGet(userChild).then((snapshot) => {
-                if(snapshot.exists()) {
-                    const parsedUser: UserType = snapshot.val()
-                    let temp: FirebaseUserType = {}
-                    const promise = Object.entries(parsedUser).map((value) => {
-                        //@ts-ignore
-                        temp[value[0]] = value[1]
-                    })
-                    Promise.all(promise)
-                        .then(() => {
-                            let userUpdates: FirebaseUserType = {}
-                            userUpdates[`/users/${user.id}`] = {
-                                ...temp,
-                                institutional: !institutional
-                            };
-                            updateFirebase(userUpdates)
-                        })
-                        .catch((error) => {
-                            console.error(error)
-                        })
-                }
-                else {
-                    let userUpdates: FirebaseUserType = {}
-                    userUpdates[`/users/${user.id}`] = {
-                        name: user.name
-                    };
-                    updateFirebase(userUpdates)
-                }
-            }).catch(error => console.error(error))
-        }
-
-        setInstitutional(value => !value)
-    }
-
     return (
         <main className={styles.skillsContainer}>
             <h2>Características</h2>
             <h5>Selecione suas características que podem colaborar com um empreendimento de base tecnológica</h5>
             <div className={styles.boardContainer}>
-                <input 
-                    type="checkbox" 
-                    name="institutionCheckBox" 
-                    id="institutionCheckBox" 
-                    checked={institutional}
-                    onChange={handleInstitutionChange}
-                />
-                <label htmlFor="institutionCheckBox">Instituição</label>
                 <div className={styles.grid}>
                     <SkillsOption skillType='knowledge' label="Conhecimentos" source={knowledgeImg}/>
                     <SkillsOption skillType='skills' label="Habilidades" source={skillsImg}/>
@@ -111,6 +48,9 @@ export function Skills() {
                 <div className={styles.buttonsContainer}>
                     <Button variant="primary" onClick={() => {navigate("/")}}>
                         Voltar
+                    </Button>
+                    <Button variant="primary" onClick={() => {navigate("/chats")}}>
+                        Conversas
                     </Button>
                     <Button variant="primary" onClick={() => {navigate("/search")}}>
                         Prosseguir

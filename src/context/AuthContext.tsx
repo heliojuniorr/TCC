@@ -5,6 +5,7 @@ import { GoogleAuthProvider, signInWithRedirect, getAuth, getRedirectResult, onA
 
 type AuthContextType = {
     user: UserType | undefined;
+    setUser: React.Dispatch<React.SetStateAction<UserType | undefined>>;
     signInWithGoogle: () => Promise<void>;
     signOutWithGoogle: () => Promise<void>;
     updateUserValues: () => void;
@@ -34,9 +35,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           })
 
           updateUserValues()
-          if(true) {
-            navigate('/skills')
-          }
+          navigate('/skills')
         }
       })
   
@@ -52,6 +51,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
       firebaseGet(userChild).then((snapshot) => {
         if(!snapshot.exists() && user) {
             let userUpdates: FirebaseUserType = {}
+            let userAux = Object.assign({}, user)
+            delete userAux.id
             userUpdates[`/users/${user.id}`] = {
                 Arquiteturadesoftware: 0,
                 businessArea: 'Não informada',
@@ -70,7 +71,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 specialty: 'Não informada',
                 Startups: 0,
                 Venturecapital: 0,
-                ...user
+                ...userAux
             };
             updateFirebase(userUpdates)
         }
@@ -122,7 +123,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{user, signInWithGoogle, signOutWithGoogle, updateUserValues}}>
+        <AuthContext.Provider value={{user, setUser, signInWithGoogle, signOutWithGoogle, updateUserValues}}>
             {props.children}
         </AuthContext.Provider>
 
