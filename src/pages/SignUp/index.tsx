@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +9,16 @@ import styles from '../SignUp/styles.module.scss'
 
 export function SignUp() {
     const navigate = useNavigate()
-    const {user, setUser} = useAuth()
+    const {user, setUser, updateUserValues} = useAuth()
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
+
+    useEffect(() => {
+        const unsubscribe = () => {
+            updateUserValues()
+        }
+
+        return unsubscribe
+    }, [])
 
     function handleSave() {
         if(user) {

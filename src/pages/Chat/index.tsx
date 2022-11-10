@@ -91,6 +91,7 @@ export function Chat() {
     return (
         <main className={styles.chatContainer}>
             <h3>Conversa com {name}</h3>
+            <h6 className={styles.warning}>Cuidado ao compartilhar dados pessoais ou que sejam importante para algum projeto.</h6>
 
             <div className={styles.messagesContainer}>
                 {
