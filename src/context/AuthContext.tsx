@@ -71,6 +71,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 specialty: 'Não informada',
                 Startups: 0,
                 Venturecapital: 0,
+                chats: [],
                 ...userAux
             };
             updateFirebase(userUpdates)

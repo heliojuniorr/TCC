@@ -17,6 +17,7 @@ export type UserType = {
     Startups?: number,
     Venturecapital?: number,
     institutional?: boolean,
+    chats?: string[],
 }
 
 export type FirebaseUserType = Record<string, {
@@ -38,6 +39,7 @@ export type FirebaseUserType = Record<string, {
     Startups?: number,
     Venturecapital?: number,
     institutional?: boolean,
+    chats?: string[],
 }>
 
 export type ApiUserType = {
@@ -59,6 +61,7 @@ export type ApiUserType = {
     Startups?: string,
     Venturecapital?: string,
     institutional?: boolean,
+    chats?: string[],
 }
 
 export type MessageType = {
@@ -71,3 +74,5 @@ export type FirebaseMessageType = Record<string, {
     authorName?: string,
     content?: string,
 }>
+
+export type FirebaseChatsType = Record<string, string[]>

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import { MessageType, FirebaseMessageType, UserType } from '../../interfaces/types'
+import { MessageType, FirebaseMessageType, UserType, FirebaseUserType, FirebaseChatsType } from '../../interfaces/types'
 import { database, firebaseChild, firebaseGet, firebasePush, firebaseRef, firebaseUpdate } from '../../services/firebase'
 import styles from './styles.module.scss'
 
@@ -67,12 +67,21 @@ export function Chat() {
         getChatId()
 
         let updates: FirebaseMessageType = {}
+        
         if(user?.name) {
             updates[`chats/${chatId}/${newMessageId}`] = {
                 authorName: user.name,
                 content: messageInput
             };
             updateFirebase(updates)
+        }
+
+        let userUpdate: FirebaseChatsType = {}
+
+        if(user?.id) {
+            userUpdate[`users/${urlParams.id || ''}/chats/`] = user?.chats?.concat(chatId) || [chatId]
+            userUpdate[`users/${user.id}/chats`] = user?.chats?.concat(chatId) || [chatId]
+            updateFirebase(userUpdate)
         }
 
         setMessageInput("")
@@ -108,7 +117,7 @@ export function Chat() {
                 <Button variant="primary" onClick={handleSendMessage}>
                     Enviar
                 </Button>
-                <Button variant="primary" onClick={() => {navigate("/search")}}>
+                <Button variant="primary" onClick={() => {navigate(-1)}}>
                     Voltar
                 </Button>
             </div>
