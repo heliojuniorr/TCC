@@ -49,7 +49,7 @@ export function Search() {
                   url: `top?id=${user?.id}`
                 }
               ).then((response) => {
-                setSearchResult(response.data)
+                setSearchResult(JSON.parse(response.data.replace(`NaN`, null)))
               })
               .catch((error) => {console.error(error)})
         }
