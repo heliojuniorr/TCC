@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 
 export function Skills() {
-    const {user, updateUserValues} = useAuth()
+    const {updateUserValues} = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -53,9 +53,7 @@ export function Skills() {
                     <Button variant="primary" onClick={() => {navigate("/")}}>
                         Voltar
                     </Button>
-                    <Button variant="primary" onClick={() => {navigate("/chats")}}>
-                        Conversas
-                    </Button>
+                    
                     <Button variant="primary" onClick={() => {navigate("/search")}}>
                         Prosseguir
                     </Button>

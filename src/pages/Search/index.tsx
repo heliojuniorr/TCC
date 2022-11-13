@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../hooks/useAuth"
@@ -8,8 +8,16 @@ import styles from '../Search/styles.module.scss'
 
 export function Search() {
     const navigate = useNavigate()
-    const {user} = useAuth()
+    const {user, updateUserValues} = useAuth()
     const [searchResult, setSearchResult] = useState<ApiUserType[]>([] as ApiUserType[])
+
+    useEffect(() => {
+        const unsubscribe = () => {
+            updateUserValues()
+        }
+
+        return unsubscribe
+    }, [])
 
     function Entity(props: ({value: ApiUserType})) {
         function handleGetInTouch() {
@@ -65,6 +73,11 @@ export function Search() {
                 <Button variant="primary" onClick={() => {navigate("/skills")}}>
                     Voltar
                 </Button>
+
+                <Button variant="primary" onClick={() => {navigate("/chats")}}>
+                    Conversas
+                </Button>
+
                 <Button variant="primary" onClick={handleSearch}>
                     Buscar colaboradores
                 </Button>
