@@ -36,30 +36,30 @@ export function SignUp() {
     return (
         <main className={styles.signUpContainer}>
             <h2>Informações básicas</h2>
-            <Form className={styles.formContainer}>
+            <div className={styles.formContainer}>
                 <div className={styles.formInputGroup}>
                     <div>
-                        <Form.Group className="mb-3" controlId="educationInput">
-                            <Form.Label>Educação formal</Form.Label>
-                            <Form.Control className={styles.textField} type="text" value={user?.education} onChange={(e) => {setUser({...user, education: e.target.value})}}/>
-                        </Form.Group> 
+                        <div>
+                            <label htmlFor="educationInput">Educação formal</label>
+                            <input type="text" name="educationInput" id="educationInput" className={styles.textField} value={user?.education} onChange={(e) => {setUser({...user, education: e.target.value})}}/>
+                        </div>
 
-                        <Form.Group className="mb-3" controlId="specialtyInput">
-                            <Form.Label>Especialidade</Form.Label>
-                            <Form.Control className={styles.textField} type="text" value={user?.specialty} onChange={(e) => {setUser({...user, specialty: e.target.value})}}/>
-                        </Form.Group>   
+                        <div>
+                            <label htmlFor="specialtyInput">Especialidade</label>
+                            <input type="text" name="specialtyInput" id="specialtyInput" className={styles.textField} value={user?.specialty} onChange={(e) => {setUser({...user, specialty: e.target.value})}}/>
+                        </div>
                     </div>
                     
                     <div>
-                        <Form.Group className="mb-3" controlId="sectorInput">
-                            <Form.Label>Área para empreender</Form.Label>
-                            <Form.Control className={styles.textField} type="text" value={user?.businessArea} onChange={(e) => {setUser({...user, businessArea: e.target.value})}}/>
-                        </Form.Group>  
+                        <div>
+                            <label htmlFor="sectorInput">Área para empreender</label>
+                            <input type="text" name="sectorInput" id="sectorInput" className={styles.textField} value={user?.businessArea} onChange={(e) => {setUser({...user, businessArea: e.target.value})}}/>
+                        </div>
 
-                        <Form.Group className="mb-3" controlId="locationInput">
-                            <Form.Label>Localidade</Form.Label>
-                            <Form.Control className={styles.textField} type="text" value={user?.location} onChange={(e) => {setUser({...user, location: e.target.value})}}/>
-                        </Form.Group> 
+                        <div>
+                            <label htmlFor="locationInput">Localidade</label>
+                            <input type="text" name="locationInput" id="locationInput" className={styles.textField} value={user?.location} onChange={(e) => {setUser({...user, location: e.target.value})}}/>
+                        </div>
                     </div>
                 </div>
                 
@@ -71,7 +71,7 @@ export function SignUp() {
                         Confirmar dados
                     </Button>
                 </div>
-            </Form>
+            </div>
         </main>
     )
 }

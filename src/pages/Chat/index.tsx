@@ -91,8 +91,8 @@ export function Chat() {
 
         return (
             <div className={styles.messageContainer}>
-                <h6>{props.message.authorName}</h6>
-                <h5>{props.message.content}</h5>
+                <div>{props.message.authorName}</div>
+                <span>{props.message.content}</span>
             </div>
         )
     }

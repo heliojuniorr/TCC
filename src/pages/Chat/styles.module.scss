@@ -4,6 +4,10 @@
     padding: 2rem 5rem;
     background: #2b94d6;
     color: rgb(238, 234, 234);
+
+    @media only screen and (max-width: 480px) {
+        height: 100%;
+    }
 }
 
 .messagesContainer {
@@ -11,12 +15,26 @@
     overflow-y: auto;
     margin: 10px;
     color: rgb(238, 234, 234);
+
+    @media only screen and (max-width: 480px) {
+        height: 50vh;
+    }
 }
 
 .footer {
     display: flex;
     justify-content: end;
     gap: 15px;
+
+    >input {
+        padding: 10px;
+        border-radius: 5px;
+        border: 0;
+    }
+
+    @media only screen and (max-width: 480px) {
+        flex-direction: column;
+    }
 }
 
 .messageContainer {
@@ -24,6 +42,14 @@
     padding: 10px;
     border-radius: 15px;
     margin: 10px;
+
+    >div {
+        font-size: small;
+    }
+
+    >span {
+        font-size: large;
+    }
 } 
 
 .warning {

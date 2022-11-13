@@ -4,6 +4,11 @@
     padding: 2rem 5rem;
     background: #2b94d6;
     color: rgb(238, 234, 234);
+
+    @media only screen and (max-width: 480px) {
+        padding: 5%;
+        height: 100vh;
+    }
 }
 
 .formContainer {
@@ -15,10 +20,41 @@
 .formInputGroup {
     display: flex;
     justify-content: space-between;
+
+    >div{
+
+        >div {
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            gap: 5px;
+
+            >input {
+                padding: 10px;
+                border-radius: 5px;
+                border: 0;
+            }
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        flex-direction: column;
+        align-items: center;
+
+        >div>div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    }
 }
 
 .textField {
     width: 35vw;
+
+    @media only screen and (max-width: 480px) {
+        width: 60vw;
+    }
 }
 
 .buttonsContainer {
