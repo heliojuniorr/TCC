@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import { useNavigate } from 'react-router-dom';
-import { ApiUserType, FirebaseUserType, UserType } from "../interfaces/types";
+import { ApiUserType, FirebaseUserType, MessageType, UserType } from "../interfaces/types";
 import { GoogleAuthProvider, signInWithRedirect, getAuth, getRedirectResult, onAuthStateChanged, signOut, firebaseChild, firebaseRef, database, firebaseGet, firebaseUpdate } from "../services/firebase"
 
 type AuthContextType = {
@@ -10,7 +10,12 @@ type AuthContextType = {
     signOutWithGoogle: () => Promise<void>;
     updateUserValues: () => void;
     updateChatsValues: () => void;
+    getChatUserName: (id: string) => void
+    updateChat: () => void
+    setChatId: (value: string) => void
+    messages: MessageType[]
     chatUsers: ApiUserType[];
+    chatUserName: string
 }
 
 type AuthContextProviderProps = {
@@ -24,7 +29,10 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const auth = getAuth()
     const navigate = useNavigate()
     const [chatUsers, setChatUsers] = useState<ApiUserType[]>([] as ApiUserType[])
+    const [chatUserName, setChatUserName] = useState('')
+    const [messages, setMessages] = useState({} as MessageType[])
     const userChatChild = (id: string) => firebaseChild(firebaseRef(database), `users/${id}`)
+    let chatId = ''
 
     useEffect(() => {
       const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -47,6 +55,45 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
         unsubscribe();
       }
     }, [])
+
+    function getChatUserName(id: string) {
+      const userChild = firebaseChild(firebaseRef(database), `users/${id}`)
+
+      if(user) {
+        firebaseGet(userChild).then((snapshot) => {
+            if(snapshot.exists()) {
+                const parsedUser: UserType = snapshot.val()
+                setChatUserName(parsedUser.name || "")
+            }
+        }).catch(error => console.error(error))
+      }
+    }
+
+    function setChatId(value: string) {
+      chatId = value
+    }
+
+    function updateChat() {
+      const chatChild = (chatId: string) => firebaseChild(firebaseRef(database), `chats/${chatId}`)
+
+      firebaseGet(chatChild(chatId)).then((snapshot) => {
+        if(snapshot.exists()) {
+            const parsedMessages: MessageType[] = snapshot.val()
+            setMessages(parsedMessages)
+        }
+      }).catch(error => console.error(error))
+
+      setInterval(() => {
+        firebaseGet(chatChild(chatId)).then((snapshot) => {
+          if(snapshot.exists()) {
+              const parsedMessages: MessageType[] = snapshot.val()
+              setMessages(parsedMessages)
+          }
+        }).catch(error => console.error(error))
+      }, 5000)
+            
+      
+    }
 
     function updateChatsValues() {
       if(user) {  
@@ -154,7 +201,22 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     return (
-        <AuthContext.Provider value={{user, setUser, signInWithGoogle, signOutWithGoogle, updateUserValues, updateChatsValues, chatUsers}}>
+        <AuthContext.Provider value={
+          {
+            user, 
+            setUser, 
+            signInWithGoogle, 
+            signOutWithGoogle, 
+            updateUserValues, 
+            updateChatsValues, 
+            chatUsers,
+            chatUserName,
+            getChatUserName,
+            messages,
+            updateChat,
+            setChatId
+            }
+          }>
             {props.children}
         </AuthContext.Provider>
 

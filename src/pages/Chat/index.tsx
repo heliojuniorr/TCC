@@ -1,21 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
-import { MessageType, FirebaseMessageType, UserType, FirebaseUserType, FirebaseChatsType } from '../../interfaces/types'
-import { database, firebaseChild, firebaseGet, firebasePush, firebaseRef, firebaseUpdate } from '../../services/firebase'
+import { MessageType, FirebaseMessageType, FirebaseChatsType } from '../../interfaces/types'
+import { database, firebaseChild, firebasePush, firebaseRef, firebaseUpdate } from '../../services/firebase'
 import styles from './styles.module.scss'
 
 export function Chat() {
     const navigate = useNavigate()
     const urlParams = useParams<{id: string}>()
-    const {user} = useAuth()
-    const [messages, setMessages] = useState({} as MessageType[])
+    const {user, chatUserName, messages, updateChat} = useAuth()
     const [messageInput, setMessageInput] = useState("")
-    const [name, setName] = useState("")
 
-    const chatChild = (chatId: string) => firebaseChild(firebaseRef(database), `chats/${chatId}`)
-    const userChild = firebaseChild(firebaseRef(database), `users/${urlParams.id}`)
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
     let chatId = ""
 
@@ -26,40 +22,9 @@ export function Chat() {
             else 
                 chatId = `${user.id}-${urlParams.id}`
         }
+
+        return chatId
     }
-
-    function updateChat() {
-        if(user && user.id && urlParams?.id) {
-            getChatId()
-                
-            firebaseGet(chatChild(chatId)).then((snapshot) => {
-                if(snapshot.exists()) {
-                    const parsedMessages: MessageType[] = snapshot.val()
-                    setMessages(parsedMessages)
-                }
-            }).catch(error => console.error(error))
-        }
-    }
-
-    useEffect(() => {
-        const unsubscribe = () => {
-            updateChat()
-            setInterval(() => {
-                updateChat()
-            }, 5000)
-
-            if(user) {
-                firebaseGet(userChild).then((snapshot) => {
-                    if(snapshot.exists()) {
-                        const parsedUser: UserType = snapshot.val()
-                        setName(parsedUser.name || "")
-                    }
-                }).catch(error => console.error(error))
-            }
-        }
-
-        return unsubscribe
-    }, [])
 
     function handleSendMessage() {
         const messagesChild = firebaseChild(firebaseRef(database), `chats/${chatId}/`)
@@ -99,7 +64,7 @@ export function Chat() {
 
     return (
         <main className={styles.chatContainer}>
-            <h3>Conversa com {name}</h3>
+            <h3>Conversa com {chatUserName}</h3>
             <h6 className={styles.warning}>Cuidado ao compartilhar dados pessoais ou que sejam importante para algum projeto.</h6>
 
             <div className={styles.messagesContainer}>
