@@ -6,6 +6,7 @@ import { GoogleAuthProvider, signInWithRedirect, getAuth, getRedirectResult, onA
 type AuthContextType = {
     user: UserType | undefined;
     setUser: React.Dispatch<React.SetStateAction<UserType | undefined>>;
+    setMessages: React.Dispatch<React.SetStateAction<MessageType[]>>
     signInWithGoogle: () => Promise<void>;
     signOutWithGoogle: () => Promise<void>;
     updateUserValues: () => void;
@@ -32,6 +33,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     const [chatUserName, setChatUserName] = useState('')
     const [messages, setMessages] = useState({} as MessageType[])
     const userChatChild = (id: string) => firebaseChild(firebaseRef(database), `users/${id}`)
+    const chatChild = (chatId: string) => firebaseChild(firebaseRef(database), `chats/${chatId}`)
     let chatId = ''
 
     useEffect(() => {
@@ -49,8 +51,12 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
           updateUserValues()
           navigate('/skills')
         }
+
+        // setInterval(() => {
+        //     updateChat()
+        // }, 5000)
       })
-  
+      
       return () => {
         unsubscribe();
       }
@@ -74,25 +80,12 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
     }
 
     function updateChat() {
-      const chatChild = (chatId: string) => firebaseChild(firebaseRef(database), `chats/${chatId}`)
-
       firebaseGet(chatChild(chatId)).then((snapshot) => {
         if(snapshot.exists()) {
             const parsedMessages: MessageType[] = snapshot.val()
             setMessages(parsedMessages)
         }
       }).catch(error => console.error(error))
-
-      setInterval(() => {
-        firebaseGet(chatChild(chatId)).then((snapshot) => {
-          if(snapshot.exists()) {
-              const parsedMessages: MessageType[] = snapshot.val()
-              setMessages(parsedMessages)
-          }
-        }).catch(error => console.error(error))
-      }, 5000)
-            
-      
     }
 
     function updateChatsValues() {
@@ -214,7 +207,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             getChatUserName,
             messages,
             updateChat,
-            setChatId
+            setChatId,
+            setMessages
             }
           }>
             {props.children}

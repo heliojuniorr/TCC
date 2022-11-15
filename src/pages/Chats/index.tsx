@@ -6,7 +6,7 @@ import { ApiUserType } from '../../interfaces/types'
 import styles from '../Chats/styles.module.scss'
 
 export function Chats() {
-    const {updateUserValues, chatUsers} = useAuth()
+    const {updateUserValues, chatUsers, setChatId, updateChat, getChatUserName, user} = useAuth()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,9 +17,24 @@ export function Chats() {
         return unsubscribe
     }, [])
 
+    function getChatId(urlId: string) {
+        let chatId = ''
+        if(user && user.id && urlId) {
+            if(user.id > urlId)
+                chatId = `${urlId}-${user.id}`
+            else 
+                chatId = `${user.id}-${urlId}`
+        }
+
+        return chatId
+    }
+
     function Entity(props: ({value: ApiUserType})) {
         const navigate = useNavigate()
         function handleGetInTouch() {
+            setChatId(getChatId(props.value.id))
+            updateChat()
+            getChatUserName(props.value.id)
             navigate(`/chat/${props.value.id}`)
         }
 

@@ -9,7 +9,7 @@ import styles from './styles.module.scss'
 export function Chat() {
     const navigate = useNavigate()
     const urlParams = useParams<{id: string}>()
-    const {user, chatUserName, messages, updateChat} = useAuth()
+    const {user, chatUserName, messages} = useAuth()
     const [messageInput, setMessageInput] = useState("")
 
     const updateFirebase = (updates: any) => firebaseUpdate(firebaseRef(database), updates) 
