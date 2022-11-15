@@ -8,7 +8,7 @@ import styles from '../Search/styles.module.scss'
 
 export function Search() {
     const navigate = useNavigate()
-    const {user, updateUserValues, getChatUserName, updateChat, setChatId} = useAuth()
+    const {user, updateUserValues, getChatUserName, updateChatById, setChatId} = useAuth()
     const [searchResult, setSearchResult] = useState<ApiUserType[]>([] as ApiUserType[])
 
     useEffect(() => {
@@ -34,7 +34,7 @@ export function Search() {
     function Entity(props: ({value: ApiUserType})) {
         function handleGetInTouch() {
             setChatId(getChatId(props.value.id))
-            updateChat()
+            updateChatById(getChatId(props.value.id))
             getChatUserName(props.value.id)
             navigate(`/chat/${props.value.id}`)
         }

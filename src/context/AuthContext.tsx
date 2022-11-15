@@ -13,6 +13,7 @@ type AuthContextType = {
     updateChatsValues: () => void;
     getChatUserName: (id: string) => void
     updateChat: () => void
+    updateChatById: (chatId: string) => void
     setChatId: (value: string) => void
     messages: MessageType[]
     chatUsers: ApiUserType[];
@@ -85,6 +86,17 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             const parsedMessages: MessageType[] = snapshot.val()
             setMessages(parsedMessages)
         }
+      }).catch(error => console.error(error))
+    }
+
+    function updateChatById(chatId: string) {
+      firebaseGet(chatChild(chatId)).then((snapshot) => {
+        if(snapshot.exists()) {
+            const parsedMessages: MessageType[] = snapshot.val()
+            setMessages(parsedMessages)
+        }
+        else 
+          setMessages([])
       }).catch(error => console.error(error))
     }
 
@@ -208,7 +220,8 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
             messages,
             updateChat,
             setChatId,
-            setMessages
+            setMessages,
+            updateChatById
             }
           }>
             {props.children}
