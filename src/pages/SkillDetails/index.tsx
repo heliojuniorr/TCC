@@ -69,6 +69,22 @@ export function SkillDetails() {
         if(user) {
             let userUpdates: FirebaseUserType = {}
                 userUpdates[`/users/${user.id}`] = {
+                    Arquiteturadesoftware: 0,
+                    businessArea: 'Não informada',
+                    CLevel: 0,
+                    education: 'Não informada',
+                    Finanças: 0,
+                    Gestãodeprojetos: 0,
+                    location: 'Não informada',
+                    Mídias: 0,
+                    Parceriasempresariais: 0,
+                    Programasdeaceleração: 0,
+                    Relaçõeshumanas: 0,
+                    Relaçõespúblicas: 0,
+                    specialty: 'Não informada',
+                    Startups: 0,
+                    Venturecapital: 0,
+                    chats: [''],
                     name: user.name,
                     ...selectedLevel
                 };

@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { FirebaseUserType } from '../../interfaces/types';
@@ -21,16 +20,20 @@ export function SignUp() {
     }, [])
 
     function handleSave() {
-        if(user) {
-            let userUpdates: FirebaseUserType = {}
-            let userAux = Object.assign({}, user)
-            delete userAux.id
+        updateUserValues()
+
+        setTimeout(() => {
+            if(user) {
+                let userUpdates: FirebaseUserType = {}
+                let userAux = Object.assign({}, user)
+                delete userAux.id
                 userUpdates[`/users/${user.id}`] = {
                     ...userAux,
                 };
                 updateFirebase(userUpdates)
-        }
-        navigate("/skills")
+            }
+            navigate("/skills")
+        }, 1000)
     }
 
     return (

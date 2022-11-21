@@ -131,7 +131,6 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 education: 'Não informada',
                 Finanças: 0,
                 Gestãodeprojetos: 0,
-                institutional: false,
                 location: 'Não informada',
                 Mídias: 0,
                 name: user.name,
@@ -142,7 +141,7 @@ export function AuthContextProvider(props: AuthContextProviderProps) {
                 specialty: 'Não informada',
                 Startups: 0,
                 Venturecapital: 0,
-                chats: [],
+                chats: [''],
                 ...userAux
             };
             updateFirebase(userUpdates)

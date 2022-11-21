@@ -38,7 +38,6 @@ export type FirebaseUserType = Record<string, {
     Relaçõespúblicas?: number,
     Startups?: number,
     Venturecapital?: number,
-    institutional?: boolean,
     chats?: string[],
 }>
 
@@ -60,7 +59,6 @@ export type ApiUserType = {
     Relaçõespúblicas?: string,
     Startups?: string,
     Venturecapital?: string,
-    institutional?: boolean,
     chats?: string[],
 }
 

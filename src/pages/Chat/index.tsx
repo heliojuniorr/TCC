@@ -79,7 +79,11 @@ export function Chat() {
             </div>
 
             <div className={styles.footer}>
-                <input type="text" value={messageInput} onChange={(e) => {setMessageInput(e.target.value)}}/>
+                <input 
+                    type="text" 
+                    value={messageInput} 
+                    onChange={(e) => {setMessageInput(e.target.value)}}
+                    />
                 <Button variant="primary" onClick={handleSendMessage}>
                     Enviar
                 </Button>
