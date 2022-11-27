@@ -64,7 +64,8 @@ export function Search() {
                   url: `top?id=${user?.id}`
                 }
               ).then((response) => {
-                setSearchResult(response.data)
+                let r = JSON.parse(String(response.data).replaceAll('"chats":NaN,', ''))
+                setSearchResult(r)
               })
               .catch((error) => {console.error(error)})
         }
