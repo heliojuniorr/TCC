@@ -43,10 +43,10 @@ export function Skills() {
             <h5>Selecione suas características que podem colaborar com um empreendimento de base tecnológica</h5>
             <div className={styles.boardContainer}>
                 <div className={styles.grid}>
+                    <SkillsOption skillType='signUp' label="Dados cadastrais" source={configImg}/>
                     <SkillsOption skillType='knowledge' label="Conhecimentos" source={knowledgeImg}/>
                     <SkillsOption skillType='skills' label="Habilidades" source={skillsImg}/>
                     <SkillsOption skillType='experience' label="Experiências" source={designImg}/>
-                    <SkillsOption skillType='signUp' label="Dados cadastrais" source={configImg}/>
                 </div>
 
                 <div className={styles.buttonsContainer}>
