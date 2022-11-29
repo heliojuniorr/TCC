@@ -11,6 +11,14 @@ const skills: string[] = ['Finanças', 'Relações públicas', 'Mídias', 'Rela�
 const experience: string[] = ['Parcerias empresariais', 'Startups', 'C Level', 'Programas de aceleração']
 const levels: string[] = ["Nenhum", "Aprendiz", 'Basico', "Intermediario", "Avancado"]
 
+const levelsAccent = {
+    "Nenhum": "Nenhum",
+    "Aprendiz": "Aprendiz", 
+    'Basico': 'Básico', 
+    "Intermediario": 'Intermediário', 
+    "Avancado": 'Avançado',
+} 
+
 const specificSkills = {
     "knowledge": knowledge,
     "skills": skills,
@@ -110,7 +118,7 @@ export function SkillDetails() {
         const levelValue = {
             1: "Nenhum",
             2: "Aprendiz",
-            3: "Basico",
+            3: "Básico",
             4: "Intermediario",
             5: "Avancado"
         }
@@ -169,7 +177,10 @@ export function SkillDetails() {
                                         checked={selected === value}
                                         onChange={handleOnChange}
                                     />
-                                    <label htmlFor={`${props.skillName.replaceAll(" ", '')}${value}Level`}>{value}</label>
+                                    <label htmlFor={`${props.skillName.replaceAll(" ", '')}${value}Level`}>{
+                                        //@ts-ignore
+                                        levelsAccent[value]
+                                    }</label>
                                 </div>
                             )
                         })
